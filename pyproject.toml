@@ -9,7 +9,45 @@ package-mode = false
 [tool.poetry.dependencies]
 python = "3.12.7"
 pytest = "^8.3.3"
+pre-commit = "^4.0.1"
+isort = "^5.13.2"
+autoflake = "^2.3.1"
+mypy = "^1.13.0"
+black = "^24.10.0"
 
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+force_grid_wrap = 0
+line_length = 120
+include_trailing_comma = true
+combine_as_imports = true
+group_by_package = true
+use_parentheses = true
+skip_gitignore = true
+
+[tool.autoflake]
+in-place = true
+remove-unused-variables = true
+remove-all-unused-imports = true
+expand-star-imports = true
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+allow_subclassing_any = true
+allow_untyped_calls = true
+allow_untyped_defs = true
+pretty = true
+show_error_codes = true
+implicit_reexport = true
+allow_untyped_decorators = true
+warn_unused_ignores = false
+warn_return_any = false
+namespace_packages = true
 
 [build-system]
 requires = ["poetry-core"]

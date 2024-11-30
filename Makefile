@@ -9,6 +9,8 @@ init:
 	poetry env use $$(pyenv which python)
 	poetry install
 	poetry shell
+	pre-commit autoupdate
+	pre-commit install
 
 .PHONY: activate
 activate:

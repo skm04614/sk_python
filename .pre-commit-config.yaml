@@ -1,0 +1,88 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: [ --maxkb=1024 ]
+
+      # checks whether .py files parse as valid python
+      - id: check-ast
+
+      # checks for code placed before docstring
+      - id: check-docstring-first
+
+      # checks for non-binary executables to have proper shebangs
+      - id: check-executables-have-shebangs
+
+      # checks files with shebangs are executable
+      - id: check-shebang-scripts-are-executable
+
+      # checks .json files to verify syntax
+      - id: check-json
+
+      # prettify .json files
+      - id: pretty-format-json
+        args: [ --auto-fix, --no-sort-keys ]
+
+      # checks for files that contain merge-conflict strings
+      - id: check-merge-conflict
+        args: [ --assume-in-merge ]
+
+      - id: check-toml
+
+      - id: check-xml
+
+      - id: check-yaml
+
+      # checks for existence of aws credentials
+      - id: detect-aws-credentials
+        args: [ --allow-missing-credentials ]
+
+      # checks for existence of private keys
+      - id: detect-private-key
+
+      # checks if all files ends with a newline
+      - id: end-of-file-fixer
+
+      # checks and replaces line ending
+      - id: mixed-line-ending
+        args: [ --fix=lf ]
+
+      # protect direct checkins to specific branches
+      - id: no-commit-to-branch
+        args: [ --branch, master ]
+
+      # trims trailing whitespace
+      - id: trailing-whitespace
+
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v3.1.0
+    hooks:
+      - id: add-trailing-comma
+
+  - repo: local
+    default_env: &default_env
+      language: system
+      types: [ python ]
+    hooks:
+      - id: isort
+        name: isort
+        entry: poetry run isort
+        <<: *default_env
+
+      - id: autoflake
+        name: autoflake
+        entry: poetry run autoflake
+        <<: *default_env
+
+      - id: mypy
+        name: mypy
+        entry: poetry run mypy
+        <<: *default_env
+
+      - id: black
+        name: black
+        entry: poetry run black
+        <<: *default_env

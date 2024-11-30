@@ -1,0 +1,49 @@
+name: Format, check and unittest python files
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  python-check:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.12.7" ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry config virtualenvs.create false
+          poetry install --no-root --no-interaction
+
+      - name: isort
+        run: |
+          poetry run isort .
+
+      - name: black
+        run: |
+          poetry run black .
+
+      - name: autoflake
+        run: |
+          poetry run autoflake .
+
+      - name: mypy
+        run: |
+          poetry run mypy .
+
+      - name: pytest
+        run: |
+          poetry run pytest
